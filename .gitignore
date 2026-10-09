@@ -6,3 +6,8 @@ venv/
 preprocessed_cicids2017.csv
 frequent_itemsets*.csv
 association_rules*.csv
+
+__pycache__/
+*.py[cod]
+.venv/
+venv/
