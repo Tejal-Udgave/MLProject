@@ -1,21 +1,31 @@
 
+import sys
 import time
+from pathlib import Path
+
 import pandas as pd
+
+# Allow importing apriori.py from the project root
+ROOT = Path(__file__).resolve().parent.parent
+sys.path.insert(0, str(ROOT))
+
 from apriori import load_transactions, apriori, generate_rules
 
-CSV_PATH = r"C:\Users\Prathmesh\Downloads\preprocessed_cicids2017.csv"
+CSV_PATH = Path(r"C:\Users\Prathmesh\Downloads\preprocessed_cicids2017.csv")
+RESULTS_DIR = ROOT / "results"
+RESULTS_DIR.mkdir(exist_ok=True)
+
 SAMPLE_SIZE = 10000
 
 print("Loading 10,000 transactions...")
 transactions = load_transactions(
-    CSV_PATH,
+    str(CSV_PATH),
     sample_size=SAMPLE_SIZE,
     include_label=False
 )
 
 results = []
 
-# Three support thresholds and two confidence thresholds
 for support in [0.05, 0.10, 0.20]:
     print(f"\nTesting minimum support = {support}")
     start = time.perf_counter()
@@ -45,9 +55,10 @@ for support in [0.05, 0.10, 0.20]:
             f"{len(frequent)} itemsets, {len(rules)} rules"
         )
 
-df = pd.DataFrame(results)
-df.to_csv("evaluation_results.csv", index=False)
+output = pd.DataFrame(results)
+output_path = RESULTS_DIR / "evaluation_results.csv"
+output.to_csv(output_path, index=False)
 
 print("\nFinal comparison:")
-print(df.to_string(index=False))
-print("\nSaved to evaluation_results.csv")
+print(output.to_string(index=False))
+print(f"\nSaved to {output_path}")

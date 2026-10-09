@@ -2,8 +2,12 @@
 import pandas as pd
 import matplotlib.pyplot as plt
 from matplotlib.ticker import StrMethodFormatter
+from pathlib import Path
 
-df = pd.read_csv("evaluation_results.csv")
+ROOT = Path(__file__).resolve().parent.parent
+RESULTS_DIR = ROOT / "results"
+
+df = pd.read_csv(RESULTS_DIR / "evaluation_results.csv")
 
 # Graph 1: Frequent itemsets by minimum support
 itemsets = (
@@ -21,10 +25,12 @@ plt.plot(
 plt.xlabel("Minimum Support")
 plt.ylabel("Number of Frequent Itemsets")
 plt.title("Effect of Minimum Support on Frequent Itemsets")
-plt.gca().yaxis.set_major_formatter(StrMethodFormatter("{x:,.0f}"))
+plt.gca().yaxis.set_major_formatter(
+    StrMethodFormatter("{x:,.0f}")
+)
 plt.grid(True)
 plt.tight_layout()
-plt.savefig("frequent_itemsets_graph.png", dpi=300)
+plt.savefig(RESULTS_DIR / "frequent_itemsets_graph.png", dpi=300)
 plt.close()
 
 # Graph 2: Association rules by minimum confidence
@@ -44,13 +50,15 @@ for support in sorted(df["Min_Support"].unique()):
 plt.xlabel("Minimum Confidence")
 plt.ylabel("Number of Association Rules")
 plt.title("Effect of Confidence on Association Rules")
-plt.gca().yaxis.set_major_formatter(StrMethodFormatter("{x:,.0f}"))
+plt.gca().yaxis.set_major_formatter(
+    StrMethodFormatter("{x:,.0f}")
+)
 plt.legend()
 plt.grid(True)
 plt.tight_layout()
-plt.savefig("association_rules_graph.png", dpi=300)
+plt.savefig(RESULTS_DIR / "association_rules_graph.png", dpi=300)
 plt.close()
 
-print("Updated graphs saved successfully:")
+print("Graphs saved successfully in results/:")
 print("- frequent_itemsets_graph.png")
 print("- association_rules_graph.png")
