@@ -1,0 +1,8 @@
+__pycache__/
+.venv/
+venv/
+.ipynb_checkpoints/
+*.parquet
+preprocessed_cicids2017.csv
+frequent_itemsets*.csv
+association_rules*.csv
